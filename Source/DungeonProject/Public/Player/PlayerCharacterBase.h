@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacterBase.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
 class UInputAction;
 
 UCLASS()
@@ -14,6 +16,14 @@ class DUNGEONPROJECT_API APlayerCharacterBase : public ACharacter
 	GENERATED_BODY()
 
 public:
+
+	// Camera boom positioning the camera behind the character
+	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "PlayerCharacterBase - Camera" )
+	TObjectPtr<USpringArmComponent> CameraBoom;
+	// Follow camera
+	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "PlayerCharacterBase - Camera" )
+	TObjectPtr<UCameraComponent> FollowCamera;
+	
 	// Called to bind functionality to input
 	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "PlayerCharacterBase - IA" )
 	TObjectPtr<UInputAction> MoveAction;
@@ -30,6 +40,20 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// Movement
+	UFUNCTION( BlueprintCallable )
+	void Move( const FInputActionValue& Value );
+	// Look
+	UFUNCTION( BlueprintCallable )
+	void Look( const FInputActionValue& Value );
+	// Interaction
+	UFUNCTION( BlueprintCallable )
+	void Interaction();
+	// Jump
+	void Jump() override;
+	void StopJumping() override;
+	
 
 public:
 

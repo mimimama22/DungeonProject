@@ -2,7 +2,9 @@
 
 
 #include "Player/PlayerCharacterBase.h"
-#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
 APlayerCharacterBase::APlayerCharacterBase()
@@ -10,12 +12,49 @@ APlayerCharacterBase::APlayerCharacterBase()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(RootComponent);
+	CameraBoom->TargetArmLength = 300.0f;
+
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+	
+}
+
+void APlayerCharacterBase::Move(const FInputActionValue& Value)
+{
+	FVector2d MovementVector = Value.Get<FVector2d>();
+
+	AddMovementInput( GetActorForwardVector() , MovementVector.X );
+	AddMovementInput( GetActorRightVector() , MovementVector.Y );
+}
+
+void APlayerCharacterBase::Look(const FInputActionValue& Value)
+{ 
+	FVector2d LookAxisVector = Value.Get<FVector2d>();
+	
+	AddControllerYawInput( LookAxisVector.X );
+	AddControllerPitchInput( LookAxisVector.Y );
+}
+
+void APlayerCharacterBase::Interaction()
+{
+}
+
+void APlayerCharacterBase::Jump()
+{
+	Super::Jump();
+}
+
+void APlayerCharacterBase::StopJumping()
+{
+	Super::StopJumping();
 	
 }
 
@@ -31,8 +70,6 @@ void APlayerCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	if( APlayerController* PlayerController = Cast<APlayerController>(GetController()) )
-	{
 		if( UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent) )
 		{
 			if( MoveAction )
@@ -53,7 +90,7 @@ void APlayerCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 				EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &APlayerCharacterBase::Interaction);
 			}
 		}
-	}
+	
 
 }
 
