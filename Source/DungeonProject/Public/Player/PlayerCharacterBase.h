@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interaction/InteractDungeon.h"
 #include "PlayerCharacterBase.generated.h"
 
 class UCameraComponent;
@@ -11,7 +12,7 @@ class USpringArmComponent;
 class UInputAction;
 
 UCLASS()
-class DUNGEONPROJECT_API APlayerCharacterBase : public ACharacter
+class DUNGEONPROJECT_API APlayerCharacterBase : public ACharacter , public IInteractDungeon
 {
 	GENERATED_BODY()
 
@@ -38,6 +39,11 @@ public:
 	TObjectPtr<UInputAction> InteractionAction;
 
 protected:
+
+	//Bool
+	bool bIsInBuildMode = false;
+
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -47,12 +53,11 @@ protected:
 	// Look
 	UFUNCTION( BlueprintCallable )
 	void Look( const FInputActionValue& Value );
-	// Interaction
-	UFUNCTION( BlueprintCallable )
-	void Interaction();
 	// Jump
 	void Jump() override;
 	void StopJumping() override;
+
+
 	
 
 public:
@@ -65,5 +70,18 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	//Exit Build Mode
+	UFUNCTION( BlueprintCallable , Category = "PlayerCharacterBase - Mode" )
+	void ExitBuildMode();
+
+
+	//Getter
+	UFUNCTION( BlueprintCallable , Category = "PlayerCharacterBase - Mode" )
+	bool GetIsInBuildMode() const { return bIsInBuildMode; }
+	
+
+	// Function Interface
+	virtual void SetModeBuildDungeon_Implementation(bool bIsBuildMode) override;
 
 };

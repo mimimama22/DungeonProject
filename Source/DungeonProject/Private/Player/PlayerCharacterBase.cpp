@@ -27,24 +27,60 @@ void APlayerCharacterBase::BeginPlay()
 	
 }
 
+// Called every frame
+void APlayerCharacterBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+// Called to bind functionality to input
+void APlayerCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	if( UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent) )
+	{
+		if( MoveAction )
+		{
+			EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerCharacterBase::Move);
+		}
+		if( LookAction )
+		{
+			EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacterBase::Look);
+		}
+		if( JumpAction )
+		{
+			EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+			EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		}
+	}
+}
+
 void APlayerCharacterBase::Move(const FInputActionValue& Value)
 {
 	FVector2d MovementVector = Value.Get<FVector2d>();
 
-	AddMovementInput( GetActorForwardVector() , MovementVector.X );
-	AddMovementInput( GetActorRightVector() , MovementVector.Y );
+	if(!bIsInBuildMode)
+	{
+		AddMovementInput( GetActorForwardVector() , MovementVector.X );
+		AddMovementInput( GetActorRightVector() , MovementVector.Y );
+	}
+	else
+	{
+		FVector NewLocation = FollowCamera->GetComponentLocation() + (FollowCamera->GetUpVector() * MovementVector.X * 10.f) +
+			(FollowCamera->GetRightVector() * MovementVector.Y * 10.f);
+		FollowCamera->SetWorldLocation(NewLocation);
+	}
 }
 
 void APlayerCharacterBase::Look(const FInputActionValue& Value)
-{ 
+{
+	if(bIsInBuildMode) return;
 	FVector2d LookAxisVector = Value.Get<FVector2d>();
 	
-	AddControllerYawInput( LookAxisVector.X );
+	AddControllerYawInput( LookAxisVector.X * 0.5f );
 	AddControllerPitchInput( LookAxisVector.Y );
-}
-
-void APlayerCharacterBase::Interaction()
-{
 }
 
 void APlayerCharacterBase::Jump()
@@ -58,39 +94,26 @@ void APlayerCharacterBase::StopJumping()
 	
 }
 
-// Called every frame
-void APlayerCharacterBase::Tick(float DeltaTime)
+void APlayerCharacterBase::ExitBuildMode()
 {
-	Super::Tick(DeltaTime);
-
+	bIsInBuildMode = false;
+	bIsInBuildMode = false;
+	FollowCamera->AttachToComponent( CameraBoom, FAttachmentTransformRules::SnapToTargetIncludingScale);
 }
 
-// Called to bind functionality to input
-void APlayerCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void APlayerCharacterBase::SetModeBuildDungeon_Implementation(bool bIsBuildMode)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-		if( UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent) )
-		{
-			if( MoveAction )
-			{
-				EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerCharacterBase::Move);
-			}
-			if( LookAction )
-			{
-				EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacterBase::Look);
-			}
-			if( JumpAction )
-			{
-				EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-				EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-			}
-			if( InteractionAction )
-			{
-				EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &APlayerCharacterBase::Interaction);
-			}
-		}
+	IInteractDungeon::SetModeBuildDungeon_Implementation(bIsBuildMode);
+	bIsInBuildMode = bIsBuildMode;
 	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Interact with Player Character") );
 
+	const FDetachmentTransformRules DetachRules(EDetachmentRule::KeepWorld, true);
+	FollowCamera->DetachFromComponent( DetachRules);
+
+	FollowCamera->SetWorldLocation( GetActorLocation() + FVector(0.f,0.f,700.f));
+	FollowCamera->SetWorldRotation( FRotator(-90.f,0.f,0.f));
+	
+	
 }
 
