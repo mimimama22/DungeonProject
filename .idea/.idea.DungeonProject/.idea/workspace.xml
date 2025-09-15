@@ -14,10 +14,7 @@
     <list default="true" id="a02f23ea-c33b-4772-bd93-7a084b9218b5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerControllerBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerCharacterBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerCharacterBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerControllerBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerControllerBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -509,6 +506,8 @@
       <workItem from="1757924464386" duration="5010000" />
       <workItem from="1757948349692" duration="6715000" />
       <workItem from="1757965679757" duration="4167000" />
+      <workItem from="1757970722225" duration="33000" />
+      <workItem from="1757970937166" duration="3581000" />
     </task>
     <servers />
   </component>
