@@ -7,6 +7,8 @@
 #include "Interaction/InteractDungeon.h"
 #include "PlayerCharacterBase.generated.h"
 
+class APlayerControllerBase;
+struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
 class UInputAction;
@@ -35,13 +37,18 @@ public:
 	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "PlayerCharacterBase - IA" )
 	TObjectPtr<UInputAction> JumpAction;
 
-	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "PlayerCharacterBase - IA" )
-	TObjectPtr<UInputAction> InteractionAction;
+	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = "PlayerCharacterBase - IA" )
+	TObjectPtr<UInputAction> ZoomAction;
+
 
 protected:
 
 	//Bool
 	bool bIsInBuildMode = false;
+
+	//Ref
+	UPROPERTY( VisibleAnywhere , BlueprintReadOnly , Category = "PlayerCharacterBase - Ref" )
+	TObjectPtr<APlayerControllerBase> PlayerControllerRef;
 
 	
 	// Called when the game starts or when spawned
@@ -53,6 +60,9 @@ protected:
 	// Look
 	UFUNCTION( BlueprintCallable )
 	void Look( const FInputActionValue& Value );
+	// Zoom
+	UFUNCTION( BlueprintCallable )
+	void Zoom( const FInputActionValue& Value );
 	// Jump
 	void Jump() override;
 	void StopJumping() override;
@@ -79,6 +89,15 @@ public:
 	//Getter
 	UFUNCTION( BlueprintCallable , Category = "PlayerCharacterBase - Mode" )
 	bool GetIsInBuildMode() const { return bIsInBuildMode; }
+	UFUNCTION( BlueprintCallable , Category = "PlayerCharacterBase - Ref" )
+	APlayerControllerBase* GetPlayerControllerRef() const { return PlayerControllerRef; }
+
+	//Setter
+	UFUNCTION( BlueprintCallable , Category = "PlayerCharacterBase - Mode" )
+	void SetIsInBuildMode(bool bNewIsInBuildMode) { bIsInBuildMode = bNewIsInBuildMode; }
+
+	UFUNCTION( BlueprintCallable , Category = "PlayerCharacterBase - Ref" )
+	void SetPlayerControllerRef(APlayerControllerBase* NewPlayerControllerRef) { PlayerControllerRef = NewPlayerControllerRef; }
 	
 
 	// Function Interface

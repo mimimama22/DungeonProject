@@ -13,6 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a02f23ea-c33b-4772-bd93-7a084b9218b5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/Input/IMC_Movement.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/Input/IMC_Movement.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/Player/BP_PlayerCharacterBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/Player/BP_PlayerCharacterBase.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/Player/BP_PlayerControllerBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/Player/BP_PlayerControllerBase.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" afterDir="false" />
@@ -39,6 +40,7 @@
     <setting file="file://$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerCharacterBase.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../programme/UE/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/Actor.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../programme/UE/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/PlayerController.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -503,6 +505,7 @@
       <workItem from="1757847639535" duration="1449000" />
       <workItem from="1757883603189" duration="2898000" />
       <workItem from="1757924464386" duration="5010000" />
+      <workItem from="1757948349692" duration="6715000" />
     </task>
     <servers />
   </component>

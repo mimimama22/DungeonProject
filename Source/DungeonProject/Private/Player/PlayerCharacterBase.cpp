@@ -5,6 +5,7 @@
 #include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/PlayerControllerBase.h"
 
 // Sets default values
 APlayerCharacterBase::APlayerCharacterBase()
@@ -32,6 +33,8 @@ void APlayerCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
+
 }
 
 // Called to bind functionality to input
@@ -53,6 +56,10 @@ void APlayerCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 		{
 			EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 			EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		}
+		if(ZoomAction)
+		{
+			EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &APlayerCharacterBase::Zoom);
 		}
 	}
 }
@@ -81,6 +88,14 @@ void APlayerCharacterBase::Look(const FInputActionValue& Value)
 	
 	AddControllerYawInput( LookAxisVector.X * 0.5f );
 	AddControllerPitchInput( LookAxisVector.Y );
+}
+
+void APlayerCharacterBase::Zoom(const FInputActionValue& Value)
+{
+	if(!bIsInBuildMode) return;
+	float ZoomAxis = Value.Get<float>();
+	
+	FollowCamera->SetWorldLocation( FollowCamera->GetComponentLocation() + (FollowCamera->GetForwardVector() * ZoomAxis * 20.f) );
 }
 
 void APlayerCharacterBase::Jump()
@@ -113,6 +128,8 @@ void APlayerCharacterBase::SetModeBuildDungeon_Implementation(bool bIsBuildMode)
 
 	FollowCamera->SetWorldLocation( GetActorLocation() + FVector(0.f,0.f,700.f));
 	FollowCamera->SetWorldRotation( FRotator(-90.f,0.f,0.f));
+
+	PlayerControllerRef->OpenSelectBuildMenu();
 	
 	
 }

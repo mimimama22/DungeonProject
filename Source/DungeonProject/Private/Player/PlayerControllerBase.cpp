@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Dungeon/Room/RoomDungeonBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Player/PlayerCharacterBase.h"
 
@@ -34,6 +35,38 @@ void APlayerControllerBase::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerCharacter = Cast<APlayerCharacterBase>(GetPawn());
+
+	PlayerCharacter->SetPlayerControllerRef(this);
+}
+
+void APlayerControllerBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if(RoomSpawned->IsValidLowLevel())
+	{
+		FVector SpawnRoomLocation;
+		FVector LookRoomDirection = FVector::ZeroVector;
+		DeprojectMousePositionToWorld( SpawnRoomLocation , LookRoomDirection );
+		SpawnRoomLocation = SpawnRoomLocation * FVector(1.f,1.f,0.f);
+		
+		RoomSpawned->SetActorLocation(SpawnRoomLocation);
+	}
+}
+
+void APlayerControllerBase::SpawnRoomFunction(TSubclassOf<ARoomDungeonBase> RoomToSpawn)
+{
+	if(RoomToSpawn)
+	{
+		FVector SpawnRoomLocation;
+		FVector LookRoomDirection = FVector::ZeroVector;
+		const FRotator SpawnRoomRotation = FRotator::ZeroRotator;
+		DeprojectMousePositionToWorld( SpawnRoomLocation , LookRoomDirection );
+		SpawnRoomLocation = SpawnRoomLocation * FVector(1.f,1.f,0.f);
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		RoomSpawned = GetWorld()->SpawnActor<ARoomDungeonBase>(RoomToSpawn, SpawnRoomLocation, SpawnRoomRotation, SpawnParams);
+	}
 }
 
 
@@ -78,6 +111,23 @@ void APlayerControllerBase::InteractFunction()
 	{
 		PlayerCharacter->ExitBuildMode();
 	}
+}
+
+void APlayerControllerBase::LeftClickFunction()
+{
+	if(PlayerCharacter->GetIsInBuildMode())
+	{
+		if(RoomSpawned->IsValidLowLevel())
+		{
+			GEngine ->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Room Placed") );
+			RoomSpawned = nullptr;
+			PlayerCharacter->ExitBuildMode();
+		}
+	}
+}
+
+void APlayerControllerBase::OpenSelectBuildMenu_Implementation()
+{
 }
 
 
