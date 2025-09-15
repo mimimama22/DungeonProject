@@ -5,7 +5,9 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Components/BoxComponent.h"
 #include "Dungeon/Room/RoomDungeonBase.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Player/PlayerCharacterBase.h"
 
@@ -26,6 +28,10 @@ void APlayerControllerBase::SetupInputComponent()
 			{
 				EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &APlayerControllerBase::InteractFunction);
 			}
+			if(LeftClickAction)
+			{
+				EnhancedInputComponent->BindAction(LeftClickAction, ETriggerEvent::Started, this, &APlayerControllerBase::LeftClickFunction);
+			}
 		}
 	}
 }
@@ -43,14 +49,19 @@ void APlayerControllerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(RoomSpawned->IsValidLowLevel())
+	if(RoomSpawned)
 	{
-		FVector SpawnRoomLocation;
-		FVector LookRoomDirection = FVector::ZeroVector;
-		DeprojectMousePositionToWorld( SpawnRoomLocation , LookRoomDirection );
-		SpawnRoomLocation = SpawnRoomLocation * FVector(1.f,1.f,0.f);
-		
-		RoomSpawned->SetActorLocation(SpawnRoomLocation);
+		FHitResult HitResult;
+		GetHitResultUnderCursor( ECC_Camera , false , HitResult );
+		if(HitResult.bBlockingHit)
+		{
+			
+			RoomSpawned->SetActorLocation(UKismetMathLibrary::Vector_SnappedToGrid(HitResult.ImpactPoint, 50 ));
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("No Hit") );
+		}
 	}
 }
 
@@ -58,6 +69,11 @@ void APlayerControllerBase::SpawnRoomFunction(TSubclassOf<ARoomDungeonBase> Room
 {
 	if(RoomToSpawn)
 	{
+		if(RoomSpawned->IsValidLowLevel())
+		{
+			RoomSpawned->Destroy();
+			RoomSpawned = nullptr;
+		}
 		FVector SpawnRoomLocation;
 		FVector LookRoomDirection = FVector::ZeroVector;
 		const FRotator SpawnRoomRotation = FRotator::ZeroRotator;
@@ -119,15 +135,25 @@ void APlayerControllerBase::LeftClickFunction()
 	{
 		if(RoomSpawned->IsValidLowLevel())
 		{
-			GEngine ->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Room Placed") );
-			RoomSpawned = nullptr;
-			PlayerCharacter->ExitBuildMode();
+			TArray<AActor*> ActorOverlap;
+			RoomSpawned->RoomBoxCollision->GetOverlappingActors( ActorOverlap );
+			if(ActorOverlap.IsEmpty())
+			{
+				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Room Placed") );
+				RoomSpawned = nullptr;
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("Can't Place Room Here") );
+			}
 		}
 	}
 }
-
+//UI
 void APlayerControllerBase::OpenSelectBuildMenu_Implementation()
 {
 }
-
+void APlayerControllerBase::CloseSelectBuildMenu_Implementation()
+{
+}
 

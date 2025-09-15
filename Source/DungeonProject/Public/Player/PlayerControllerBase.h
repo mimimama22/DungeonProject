@@ -65,6 +65,8 @@ public:
 	//UI
 	UFUNCTION( BlueprintNativeEvent , Category = "PlayerControllerBase - UI" )
 	void OpenSelectBuildMenu();
+	UFUNCTION( BlueprintNativeEvent , Category = "PlayerControllerBase - UI" )
+	void CloseSelectBuildMenu();
 
 	//Getter
 	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Getter" )
@@ -74,3 +76,5 @@ public:
 
 	
 };
+
+

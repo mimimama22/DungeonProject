@@ -7,6 +7,7 @@
 #include "Interaction/InteractDungeon.h"
 #include "PlayerCharacterBase.generated.h"
 
+class UBoxComponent;
 class APlayerControllerBase;
 struct FInputActionValue;
 class UCameraComponent;
@@ -49,6 +50,7 @@ protected:
 	//Ref
 	UPROPERTY( VisibleAnywhere , BlueprintReadOnly , Category = "PlayerCharacterBase - Ref" )
 	TObjectPtr<APlayerControllerBase> PlayerControllerRef;
+
 
 	
 	// Called when the game starts or when spawned

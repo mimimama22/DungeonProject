@@ -114,6 +114,8 @@ void APlayerCharacterBase::ExitBuildMode()
 	bIsInBuildMode = false;
 	bIsInBuildMode = false;
 	FollowCamera->AttachToComponent( CameraBoom, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	PlayerControllerRef->SetShowMouseCursor(false);
+	PlayerControllerRef->CloseSelectBuildMenu();
 }
 
 void APlayerCharacterBase::SetModeBuildDungeon_Implementation(bool bIsBuildMode)
@@ -128,6 +130,8 @@ void APlayerCharacterBase::SetModeBuildDungeon_Implementation(bool bIsBuildMode)
 
 	FollowCamera->SetWorldLocation( GetActorLocation() + FVector(0.f,0.f,700.f));
 	FollowCamera->SetWorldRotation( FRotator(-90.f,0.f,0.f));
+
+
 
 	PlayerControllerRef->OpenSelectBuildMenu();
 	
