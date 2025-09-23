@@ -5,8 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Interaction/InteractDungeon.h"
+#include "Utility/DungeonBuildEnum.h"
 #include "PlayerControllerBase.generated.h"
 
+class ASplineDungeonPath;
 class ARoomDungeonBase;
 class APlayerCharacterBase;
 class UInputAction;
@@ -36,8 +38,16 @@ protected:
 	TObjectPtr<APlayerCharacterBase> PlayerCharacter;
 
 	//Build Mode
+	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "PlayerControllerBase - BuildMode" )
+	EBuildModeState BuildModeState = EBuildModeState::None;
+	//Current Build Type
+	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "PlayerControllerBase - BuildMode" )
+	EBuildType CurrentBuildType = EBuildType::None;
 	//Reference to the room to spawn
 	TObjectPtr<ARoomDungeonBase> RoomSpawned;
+	//Reference to the corridor to spawn
+	TObjectPtr<ASplineDungeonPath> CorridorSpawned;
+	
 
 	
 	// Called to bind functionality to input
@@ -48,6 +58,9 @@ protected:
 
 	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Input" )
 	void LeftClickFunction();
+	//Function to handle the build mode
+	UFUNCTION(BlueprintCallable, Category = "PlayerControllerBase - BuildMode")
+	void HandleBuildMode();
 
 
 
@@ -61,6 +74,9 @@ public:
 	//Spawn Room Function
 	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Room" )
 	void SpawnRoomFunction( TSubclassOf< ARoomDungeonBase> RoomToSpawn);
+	//Spawn Corridor Function
+	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Corridor" )
+	void SpawnCorridorFunction(TSubclassOf<ASplineDungeonPath> CorridorToSpawn);
 
 	//UI
 	UFUNCTION( BlueprintNativeEvent , Category = "PlayerControllerBase - UI" )
@@ -71,10 +87,16 @@ public:
 	//Getter
 	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Getter" )
 	APlayerCharacterBase* GetPlayerCharacter() const { return PlayerCharacter; }
+	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Getter" )
+	EBuildModeState GetBuildModeState() const{ return BuildModeState; };
+	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Getter" )
+	EBuildType GetCurrentBuildType() const{ return CurrentBuildType; };
 
 	//Setter
-
-	
+	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Setter" )
+	void SetBuildModeState(EBuildModeState NewState){ BuildModeState = NewState;};
+	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Setter" )
+	void SetCurrentBuildType(EBuildType NewBuildType){ CurrentBuildType = NewBuildType; };
 };
 
 

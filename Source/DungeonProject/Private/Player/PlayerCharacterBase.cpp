@@ -116,12 +116,14 @@ void APlayerCharacterBase::ExitBuildMode()
 	FollowCamera->AttachToComponent( CameraBoom, FAttachmentTransformRules::SnapToTargetIncludingScale);
 	PlayerControllerRef->SetShowMouseCursor(false);
 	PlayerControllerRef->CloseSelectBuildMenu();
+	PlayerControllerRef->SetBuildModeState( EBuildModeState::PlayMode );
 }
 
 void APlayerCharacterBase::SetModeBuildDungeon_Implementation(bool bIsBuildMode)
 {
 	IInteractDungeon::SetModeBuildDungeon_Implementation(bIsBuildMode);
 	bIsInBuildMode = bIsBuildMode;
+	PlayerControllerRef->SetBuildModeState( bIsInBuildMode ? EBuildModeState::BuildMode : EBuildModeState::PlayMode );
 	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Interact with Player Character") );
 

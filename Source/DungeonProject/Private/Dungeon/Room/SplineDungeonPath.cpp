@@ -13,6 +13,7 @@ ASplineDungeonPath::ASplineDungeonPath()
 	PrimaryActorTick.bCanEverTick = true;
 	SplineComponent = CreateDefaultSubobject<USplineComponent>(TEXT("SplineComponent"));
 	RootComponent = SplineComponent;
+	SplineComponent->SetMobility( EComponentMobility::Movable );
 
 }
 
@@ -20,15 +21,22 @@ ASplineDungeonPath::ASplineDungeonPath()
 void ASplineDungeonPath::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	
+}
 
-	float SplineLenght = SplineComponent->GetSplineLength();
+void ASplineDungeonPath::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+
+	/*float SplineLenght = SplineComponent->GetSplineLength();
 	float ActualDistance = 0.f;
 	bool EndSpline = false;
 
 	if(ActualDistance < SplineLenght && !EndSpline)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("SplineLenght: %f"), SplineLenght));
-	    FVector StartLocation = SplineComponent->GetLocationAtDistanceAlongSpline(ActualDistance, ESplineCoordinateSpace::Local);
+		FVector StartLocation = SplineComponent->GetLocationAtDistanceAlongSpline(ActualDistance, ESplineCoordinateSpace::Local);
 		FVector StartTangent = SplineComponent->GetTangentAtDistanceAlongSpline(ActualDistance, ESplineCoordinateSpace::Local);
 		ActualDistance += LenghtMesh * 100.0f;
 		EndSpline = ActualDistance > SplineLenght;
@@ -54,14 +62,7 @@ void ASplineDungeonPath::BeginPlay()
 		// Register the component
 		SplineMesh->RegisterComponent();
 		
-	}
-	
-}
-
-void ASplineDungeonPath::OnConstruction(const FTransform& Transform)
-{
-	Super::OnConstruction(Transform);
-
+	}*/
 	
 	
 }
@@ -72,4 +73,14 @@ void ASplineDungeonPath::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
+void ASplineDungeonPath::UpdateSpline()
+{
+}
+
+bool ASplineDungeonPath::GeneratedSlinePath_Implementation()
+{
+	return true;
+}
+
 

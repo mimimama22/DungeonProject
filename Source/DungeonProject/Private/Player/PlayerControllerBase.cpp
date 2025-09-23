@@ -7,8 +7,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "Components/BoxComponent.h"
 #include "Dungeon/Room/RoomDungeonBase.h"
+#include "Dungeon/Room/SplineDungeonPath.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Components/SplineComponent.h"
 #include "Player/PlayerCharacterBase.h"
 
 void APlayerControllerBase::SetupInputComponent()
@@ -48,43 +50,17 @@ void APlayerControllerBase::BeginPlay()
 void APlayerControllerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if(RoomSpawned)
-	{
-		FHitResult HitResult;
-		GetHitResultUnderCursor( ECC_Camera , false , HitResult );
-		if(HitResult.bBlockingHit)
-		{
-			
-			RoomSpawned->SetActorLocation(UKismetMathLibrary::Vector_SnappedToGrid(HitResult.ImpactPoint, 50 ));
-		}
-		else
-		{
-			GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("No Hit") );
-		}
+	switch (BuildModeState) {
+	case EBuildModeState::None:
+		break;
+	case EBuildModeState::BuildMode:
+		HandleBuildMode();
+		break;
+	case EBuildModeState::PlayMode:
+		break;
 	}
-}
 
-void APlayerControllerBase::SpawnRoomFunction(TSubclassOf<ARoomDungeonBase> RoomToSpawn)
-{
-	if(RoomToSpawn)
-	{
-		if(RoomSpawned->IsValidLowLevel())
-		{
-			RoomSpawned->Destroy();
-			RoomSpawned = nullptr;
-		}
-		FVector SpawnRoomLocation;
-		FVector LookRoomDirection = FVector::ZeroVector;
-		const FRotator SpawnRoomRotation = FRotator::ZeroRotator;
-		DeprojectMousePositionToWorld( SpawnRoomLocation , LookRoomDirection );
-		SpawnRoomLocation = SpawnRoomLocation * FVector(1.f,1.f,0.f);
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = this;
-		RoomSpawned = GetWorld()->SpawnActor<ARoomDungeonBase>(RoomToSpawn, SpawnRoomLocation, SpawnRoomRotation, SpawnParams);
-	}
 }
-
 
 void APlayerControllerBase::InteractFunction()
 {
@@ -133,22 +109,149 @@ void APlayerControllerBase::LeftClickFunction()
 {
 	if(PlayerCharacter->GetIsInBuildMode())
 	{
-		if(RoomSpawned->IsValidLowLevel())
-		{
-			TArray<AActor*> ActorOverlap;
-			RoomSpawned->RoomBoxCollision->GetOverlappingActors( ActorOverlap );
-			if(ActorOverlap.IsEmpty())
+		switch (CurrentBuildType) {
+		case EBuildType::None:
+			break;
+		case EBuildType::Room:
+			if(RoomSpawned->IsValidLowLevel())
 			{
-				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Room Placed") );
-				RoomSpawned = nullptr;
+				TArray<AActor*> ActorOverlap;
+				RoomSpawned->RoomBoxCollision->GetOverlappingActors( ActorOverlap );
+				if(ActorOverlap.IsEmpty())
+				{
+					GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Room Placed") );
+					RoomSpawned = nullptr;
+					CurrentBuildType = EBuildType::None;
+				}
+				else
+				{
+					GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("Can't Place Room Here") );
+				}
+			}
+			break;
+		case EBuildType::Door:
+			break;
+		case EBuildType::Trap:
+			break;
+		case EBuildType::Stairs:
+			break;
+		case EBuildType::SplinePath:
+			if(CorridorSpawned)
+			{
+				if(CorridorSpawned->GetIsPlace())
+				{
+					CurrentBuildType = EBuildType::None;
+					GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Corridor Placed") );
+				}
+				else
+				{
+					CorridorSpawned->SetIsPlace(true);
+					CorridorSpawned->SplineComponent->SetMobility( EComponentMobility::Static );
+				}
+			}
+			break;
+		}
+
+	}
+}
+
+//BuildMode
+void APlayerControllerBase::HandleBuildMode()
+{
+	switch (CurrentBuildType)
+	{
+	case EBuildType::None:
+		break;
+	case EBuildType::Room:
+		if(RoomSpawned)
+		{
+			FHitResult HitResult;
+			GetHitResultUnderCursor( ECC_Camera , false , HitResult );
+			if(HitResult.bBlockingHit)
+			{
+			
+				RoomSpawned->SetActorLocation(UKismetMathLibrary::Vector_SnappedToGrid(HitResult.ImpactPoint, 50 ));
 			}
 			else
 			{
-				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("Can't Place Room Here") );
+				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("No Hit") );
 			}
+		}
+		break;
+	case EBuildType::Door:
+		break;
+	case EBuildType::Trap:
+		break;
+	case EBuildType::Stairs:
+		break;
+	case EBuildType::SplinePath:
+		if(CorridorSpawned)
+		{
+			FHitResult HitResult;
+			GetHitResultUnderCursor( ECC_Camera , false , HitResult );
+			if(HitResult.bBlockingHit)
+			{
+				if(CorridorSpawned->GetIsPlace())
+				{
+					GEngine->AddOnScreenDebugMessage( -1, 0.f, FColor::Blue, TEXT("Corridor Moving") );
+
+
+			
+					CorridorSpawned->SplineComponent->SetLocationAtSplinePoint(CorridorSpawned->SplineComponent->GetNumberOfSplinePoints()-1,
+						UKismetMathLibrary::Vector_SnappedToGrid(HitResult.ImpactPoint, 50 ), ESplineCoordinateSpace::World);
+					CorridorSpawned->GeneratedSlinePath();
+
+				}
+				else
+				{
+					CorridorSpawned->SetActorLocation(UKismetMathLibrary::Vector_SnappedToGrid(HitResult.ImpactPoint, 50 ));
+				}
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("No Hit") );
+			}
+			break;
 		}
 	}
 }
+
+void APlayerControllerBase::SpawnRoomFunction(TSubclassOf<ARoomDungeonBase> RoomToSpawn)
+{
+	if(RoomToSpawn)
+	{
+		if(RoomSpawned->IsValidLowLevel())
+		{
+			RoomSpawned->Destroy();
+			RoomSpawned = nullptr;
+		}
+		FVector SpawnRoomLocation;
+		FVector LookRoomDirection = FVector::ZeroVector;
+		const FRotator SpawnRoomRotation = FRotator::ZeroRotator;
+		DeprojectMousePositionToWorld( SpawnRoomLocation , LookRoomDirection );
+		SpawnRoomLocation = SpawnRoomLocation * FVector(1.f,1.f,0.f);
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		RoomSpawned = GetWorld()->SpawnActor<ARoomDungeonBase>(RoomToSpawn, SpawnRoomLocation, SpawnRoomRotation, SpawnParams);
+	}
+}
+
+void APlayerControllerBase::SpawnCorridorFunction(TSubclassOf<ASplineDungeonPath> CorridorToSpawn)
+{
+	if(CorridorToSpawn)
+	{
+		FVector SpawnRoomLocation;
+		FVector LookRoomDirection = FVector::ZeroVector;
+		const FRotator SpawnRoomRotation = FRotator::ZeroRotator;
+		DeprojectMousePositionToWorld( SpawnRoomLocation , LookRoomDirection );
+		SpawnRoomLocation = SpawnRoomLocation * FVector(1.f,1.f,0.f);
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		CorridorSpawned = GetWorld()->SpawnActor<ASplineDungeonPath>(CorridorToSpawn, SpawnRoomLocation, SpawnRoomRotation, SpawnParams);
+		GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Corridor Spawned") );
+	}
+}
+
 //UI
 void APlayerControllerBase::OpenSelectBuildMenu_Implementation()
 {

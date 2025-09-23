@@ -13,8 +13,14 @@
   <component name="ChangeListManager">
     <list default="true" id="a02f23ea-c33b-4772-bd93-7a084b9218b5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/Dungeon/Room/BP_SplineDungeonPath.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/Dungeon/Room/BP_SplineDungeonPath.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/UI/Build/WBP_SelectRoom.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/UI/Build/WBP_SelectRoom.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Dungeon/Room/SplineDungeonPath.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Dungeon/Room/SplineDungeonPath.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerControllerBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Public/Dungeon/Room/SplineDungeonPath.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Public/Dungeon/Room/SplineDungeonPath.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerControllerBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerControllerBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +36,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../DivineConflict/Source/DivineConflict/Private/CustomPlayerController.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../DivineConflict/Source/DivineConflict/Public/CustomPlayerController.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../DivineConflict/Source/DivineConflict/Public/EnumsList.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../DivineConflict/Source/DivineConflict/Public/InteractInterface.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerCharacterBase.h" root0="FORCE_HIGHLIGHTING" />
@@ -508,6 +515,9 @@
       <workItem from="1757965679757" duration="4167000" />
       <workItem from="1757970722225" duration="33000" />
       <workItem from="1757970937166" duration="3581000" />
+      <workItem from="1758468752625" duration="674000" />
+      <workItem from="1758525391631" duration="11912000" />
+      <workItem from="1758613936840" duration="5619000" />
     </task>
     <servers />
   </component>
