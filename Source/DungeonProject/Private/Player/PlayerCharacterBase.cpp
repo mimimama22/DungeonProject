@@ -117,6 +117,7 @@ void APlayerCharacterBase::ExitBuildMode()
 	PlayerControllerRef->SetShowMouseCursor(false);
 	PlayerControllerRef->CloseSelectBuildMenu();
 	PlayerControllerRef->SetBuildModeState( EBuildModeState::PlayMode );
+	
 }
 
 void APlayerCharacterBase::SetModeBuildDungeon_Implementation(bool bIsBuildMode)

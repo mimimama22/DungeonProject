@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BuildTypeBase.h"
 #include "GameFramework/Actor.h"
 #include "Utility/DungeonBuildEnum.h"
 #include "SplineDungeonPath.generated.h"
@@ -11,7 +12,7 @@ class USplineMeshComponent;
 class USplineComponent;
 
 UCLASS()
-class DUNGEONPROJECT_API ASplineDungeonPath : public AActor
+class DUNGEONPROJECT_API ASplineDungeonPath : public ABuildTypeBase
 {
 	GENERATED_BODY()
 	

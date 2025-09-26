@@ -11,6 +11,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Components/SplineComponent.h"
+#include "Dungeon/Trap/TrapBase.h"
 #include "Player/PlayerCharacterBase.h"
 
 void APlayerControllerBase::SetupInputComponent()
@@ -132,6 +133,13 @@ void APlayerControllerBase::LeftClickFunction()
 		case EBuildType::Door:
 			break;
 		case EBuildType::Trap:
+			if(TrapSpawned)
+			{
+				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Trap Placed") );
+				TrapSpawned->SetIsActive(false);
+				TrapSpawned = nullptr;
+				CurrentBuildType = EBuildType::None;
+			}
 			break;
 		case EBuildType::Stairs:
 			break;
@@ -181,6 +189,20 @@ void APlayerControllerBase::HandleBuildMode()
 	case EBuildType::Door:
 		break;
 	case EBuildType::Trap:
+		if(TrapSpawned)
+		{
+			FHitResult HitResult;
+			GetHitResultUnderCursor( ECC_Camera , false , HitResult );
+			if(HitResult.bBlockingHit)
+			{
+			
+				TrapSpawned->SetActorLocation(UKismetMathLibrary::Vector_SnappedToGrid(HitResult.ImpactPoint, 50 ));
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Red, TEXT("No Hit") );
+			}
+		}
 		break;
 	case EBuildType::Stairs:
 		break;
@@ -249,6 +271,21 @@ void APlayerControllerBase::SpawnCorridorFunction(TSubclassOf<ASplineDungeonPath
 		SpawnParams.Owner = this;
 		CorridorSpawned = GetWorld()->SpawnActor<ASplineDungeonPath>(CorridorToSpawn, SpawnRoomLocation, SpawnRoomRotation, SpawnParams);
 		GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Corridor Spawned") );
+	}
+}
+
+void APlayerControllerBase::SpawnTrapFunction(TSubclassOf<AActor> TrapToSpawn)
+{
+	if(TrapToSpawn)
+	{
+		FVector SpawnRoomLocation;
+		FVector LookRoomDirection = FVector::ZeroVector;
+		const FRotator SpawnRoomRotation = FRotator::ZeroRotator;
+		DeprojectMousePositionToWorld( SpawnRoomLocation , LookRoomDirection );
+		SpawnRoomLocation = SpawnRoomLocation * FVector(1.f,1.f,0.f);
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		TrapSpawned = GetWorld()->SpawnActor<ATrapBase>(TrapToSpawn, SpawnRoomLocation, SpawnRoomRotation, SpawnParams);
 	}
 }
 

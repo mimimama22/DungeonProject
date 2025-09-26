@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BuildTypeBase.h"
 #include "GameFramework/Actor.h"
 #include "RoomDungeonBase.generated.h"
 
 class UBoxComponent;
 
 UCLASS()
-class DUNGEONPROJECT_API ARoomDungeonBase : public AActor
+class DUNGEONPROJECT_API ARoomDungeonBase : public ABuildTypeBase
 {
 	GENERATED_BODY()
 	

@@ -22,7 +22,6 @@ void ASplineDungeonPath::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	
 }
 
 void ASplineDungeonPath::OnConstruction(const FTransform& Transform)

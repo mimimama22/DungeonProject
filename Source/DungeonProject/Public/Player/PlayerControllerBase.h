@@ -8,6 +8,7 @@
 #include "Utility/DungeonBuildEnum.h"
 #include "PlayerControllerBase.generated.h"
 
+class ATrapBase;
 class ASplineDungeonPath;
 class ARoomDungeonBase;
 class APlayerCharacterBase;
@@ -47,6 +48,8 @@ protected:
 	TObjectPtr<ARoomDungeonBase> RoomSpawned;
 	//Reference to the corridor to spawn
 	TObjectPtr<ASplineDungeonPath> CorridorSpawned;
+	//Reference to the trap to spawn
+	TObjectPtr<ATrapBase> TrapSpawned;
 	
 
 	
@@ -77,6 +80,9 @@ public:
 	//Spawn Corridor Function
 	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Corridor" )
 	void SpawnCorridorFunction(TSubclassOf<ASplineDungeonPath> CorridorToSpawn);
+	//Spawn Trap Function
+	UFUNCTION( BlueprintCallable , Category = "PlayerControllerBase - Trap" )
+	void SpawnTrapFunction(TSubclassOf<AActor> TrapToSpawn);
 
 	//UI
 	UFUNCTION( BlueprintNativeEvent , Category = "PlayerControllerBase - UI" )
