@@ -13,6 +13,7 @@
 #include "Components/SplineComponent.h"
 #include "Dungeon/Trap/TrapBase.h"
 #include "Player/PlayerCharacterBase.h"
+#include "Utility/SaveDungeonLibrary.h"
 
 void APlayerControllerBase::SetupInputComponent()
 {
@@ -121,8 +122,10 @@ void APlayerControllerBase::LeftClickFunction()
 				if(ActorOverlap.IsEmpty())
 				{
 					GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Room Placed") );
+					USaveDungeonLibrary::SaveRoomDungeon(RoomSpawned , GetWorld());
 					RoomSpawned = nullptr;
 					CurrentBuildType = EBuildType::None;
+					
 				}
 				else
 				{
@@ -238,7 +241,7 @@ void APlayerControllerBase::HandleBuildMode()
 	}
 }
 
-void APlayerControllerBase::SpawnRoomFunction(TSubclassOf<ARoomDungeonBase> RoomToSpawn)
+void APlayerControllerBase::SpawnRoomFunction(const TSubclassOf<ARoomDungeonBase> RoomToSpawn)
 {
 	if(RoomToSpawn)
 	{

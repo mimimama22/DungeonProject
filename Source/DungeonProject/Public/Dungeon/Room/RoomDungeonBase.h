@@ -25,6 +25,11 @@ public:
 	TObjectPtr<UBoxComponent> RoomBoxCollision;
 
 protected:
+	//Room Properties
+	UPROPERTY( EditAnywhere , BlueprintReadWrite , Category = "RoomDungeonBase - Room" )
+	int RoomID;
+
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -33,5 +38,13 @@ public:
 	ARoomDungeonBase();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	//Getters
+	UFUNCTION( BlueprintCallable, BlueprintPure , Category = "RoomDungeonBase - Room" )
+	int GetRoomID() const { return RoomID; }
+
+	//Setters
+	UFUNCTION( BlueprintCallable , Category = "RoomDungeonBase - Room" )
+	void SetRoomID(int NewRoomID) { RoomID = NewRoomID; }
 
 };

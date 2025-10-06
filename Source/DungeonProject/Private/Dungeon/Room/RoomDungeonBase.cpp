@@ -26,6 +26,8 @@ ARoomDungeonBase::ARoomDungeonBase()
 void ARoomDungeonBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	RoomID = FMath::RandRange(1,100000);
 	
 }
 

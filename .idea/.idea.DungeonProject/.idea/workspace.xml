@@ -13,14 +13,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a02f23ea-c33b-4772-bd93-7a084b9218b5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DungeonProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/Dungeon/Room/BP_SplineDungeonPath.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/Dungeon/Room/BP_SplineDungeonPath.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/UI/Build/WBP_SelectRoom.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/UI/Build/WBP_SelectRoom.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/LVL/LVL_Test.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Dungeon/Room/SplineDungeonPath.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Dungeon/Room/SplineDungeonPath.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerCharacterBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Blueprints/Network/BP_CustomGameModeBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Blueprints/Network/BP_CustomGameModeBase.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Dungeon/Room/RoomDungeonBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Dungeon/Room/RoomDungeonBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Private/Player/PlayerControllerBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Public/Dungeon/Room/SplineDungeonPath.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Public/Dungeon/Room/SplineDungeonPath.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerControllerBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Public/Player/PlayerControllerBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DungeonProject/Public/Dungeon/Room/RoomDungeonBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DungeonProject/Public/Dungeon/Room/RoomDungeonBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -518,6 +515,14 @@
       <workItem from="1758468752625" duration="674000" />
       <workItem from="1758525391631" duration="11912000" />
       <workItem from="1758613936840" duration="5619000" />
+      <workItem from="1758874321446" duration="186000" />
+      <workItem from="1758874533123" duration="3000" />
+      <workItem from="1758874965884" duration="310000" />
+      <workItem from="1758959649931" duration="5104000" />
+      <workItem from="1758965679466" duration="2000" />
+      <workItem from="1759477377630" duration="6967000" />
+      <workItem from="1759494999271" duration="4326000" />
+      <workItem from="1759737482676" duration="3521000" />
     </task>
     <servers />
   </component>
