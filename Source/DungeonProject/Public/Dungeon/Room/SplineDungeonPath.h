@@ -33,6 +33,10 @@ protected:
 	UPROPERTY( EditAnywhere , BlueprintReadWrite, Category="Spline")
 	float Spacing = 0.f;
 
+	//CoridorID
+	UPROPERTY( EditAnywhere , BlueprintReadWrite, Category="Spline")
+	int CoridorID = -1;
+
 	//bool
 	UPROPERTY( EditAnywhere , BlueprintReadWrite, Category="Spline")
 	bool bIsPlace = false;
@@ -66,8 +70,13 @@ public:
 	UFUNCTION(Blueprintable, BlueprintPure, Category="Spline")
 	bool GetIsPlace() const { return bIsPlace; }
 
+	UFUNCTION( Blueprintable, BlueprintPure, Category="Spline")
+	int GetCoridorID() const { return CoridorID; }
+
 	//Setter
 	UFUNCTION(Blueprintable, BlueprintCallable, Category="Spline")
 	void SetIsPlace(bool NewIsPlace) { bIsPlace = NewIsPlace; }
+	UFUNCTION( Blueprintable, BlueprintCallable, Category="Spline")
+	void SetCoridorID(int NewID) { CoridorID = NewID; }
 
 };

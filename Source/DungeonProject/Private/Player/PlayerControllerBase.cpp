@@ -153,11 +153,12 @@ void APlayerControllerBase::LeftClickFunction()
 				{
 					CurrentBuildType = EBuildType::None;
 					GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Blue, TEXT("Corridor Placed") );
+					USaveDungeonLibrary::SaveCoridorDungeon(CorridorSpawned , GetWorld());
 				}
 				else
 				{
 					CorridorSpawned->SetIsPlace(true);
-					CorridorSpawned->SplineComponent->SetMobility( EComponentMobility::Static );
+					CorridorSpawned->SplineComponent->SetMobility( EComponentMobility::Static );					
 				}
 			}
 			break;

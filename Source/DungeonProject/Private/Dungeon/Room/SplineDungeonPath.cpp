@@ -4,7 +4,7 @@
 #include "Dungeon/Room/SplineDungeonPath.h"
 
 #include "Components/SplineComponent.h"
-#include "Components/SplineMeshComponent.h"
+
 
 // Sets default values
 ASplineDungeonPath::ASplineDungeonPath()

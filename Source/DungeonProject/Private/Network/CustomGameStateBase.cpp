@@ -2,6 +2,9 @@
 
 
 #include "Network/CustomGameStateBase.h"
+
+#include "Components/SplineComponent.h"
+#include "Dungeon/Room/SplineDungeonPath.h"
 #include "Kismet/GameplayStatics.h"
 #include "Save/DungeonBuildSave.h"
 #include "Utility/SaveDungeonLibrary.h"
@@ -67,6 +70,10 @@ void ACustomGameStateBase::LoadDungeon()
 		{
 			SpawnDungeonRoom(RoomData);
 		}
+		for (FSaveCoridorData CoridorData : LoadDungeonSave->SavedCoridorDataArray)
+		{
+			SpawnDungeonCoridor(CoridorData);
+		}
 	}
 	else
 	UE_LOG( LogTemp, Warning, TEXT("Save Game Does Not Exist!") );
@@ -74,12 +81,24 @@ void ACustomGameStateBase::LoadDungeon()
 
 void ACustomGameStateBase::SpawnDungeonRoom(const FSaveRoomsData& RoomData) const
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Spawning Room"));
 	FActorSpawnParameters SpawnParams;
 	ARoomDungeonBase* RoomSpawned =  GetWorld()->SpawnActor<ARoomDungeonBase>(RoomData.ActorClass, RoomData.ActorTransform, SpawnParams);
 	if(RoomSpawned->IsValidLowLevel())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Room Spawned"));
 		RoomSpawned->SetRoomID(RoomData.RoomID);
+	}
+}
+
+void ACustomGameStateBase::SpawnDungeonCoridor(const FSaveCoridorData& CoridorData) const
+{
+	GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Green, TEXT("Spawning Coridor") );
+	FActorSpawnParameters SpawnParams;
+	ASplineDungeonPath* CoridorSpawned =  GetWorld()->SpawnActor<ASplineDungeonPath>(CoridorData.ActorClass, CoridorData.ActorTransform, SpawnParams);
+	if(CoridorSpawned->IsValidLowLevel())
+	{
+		CoridorSpawned->SetCoridorID(CoridorData.CoridorID);
+		CoridorSpawned->SplineComponent->SetLocationAtSplinePoint( CoridorSpawned->SplineComponent->GetNumberOfSplinePoints()-1,
+			CoridorData.EndLocation, ESplineCoordinateSpace::Local);
+		CoridorSpawned->GeneratedSlinePath();
 	}
 }

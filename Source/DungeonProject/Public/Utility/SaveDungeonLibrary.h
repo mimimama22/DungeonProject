@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "SaveDungeonLibrary.generated.h"
 
+class ASplineDungeonPath;
 class UDungeonBuildSave;
 class ARoomDungeonBase;
 /**
@@ -21,6 +22,9 @@ public:
 	
 	UFUNCTION( BlueprintCallable, Category = "SaveDungeonLibrary" )
 	static void SaveRoomDungeon(ARoomDungeonBase* RoomDungeon, UWorld* WorldContext);
+
+	UFUNCTION( BlueprintCallable, Category = "SaveDungeonLibrary" )
+	static void SaveCoridorDungeon(ASplineDungeonPath* CorridorDungeon, UWorld* WorldContext);
 
 	//Get the SaveGame Instance
 	static UDungeonBuildSave* GetSaveGameInstance( const UWorld* WorldContext);

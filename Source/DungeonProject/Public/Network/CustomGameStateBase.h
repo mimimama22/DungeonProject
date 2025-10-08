@@ -19,6 +19,9 @@ protected:
 	//Spawned Dungeon Room
 	UFUNCTION( Blueprintable , Category = "CustomGameStateBase - SaveDungeon" )
 	void SpawnDungeonRoom(const FSaveRoomsData& RoomData) const;
+
+	UFUNCTION( Blueprintable , Category = "CustomGameStateBase - SaveDungeon" )
+	void SpawnDungeonCoridor(const FSaveCoridorData& CoridorData) const;
 	
 public:
 
