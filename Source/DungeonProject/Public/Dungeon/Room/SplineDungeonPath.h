@@ -65,6 +65,9 @@ public:
 	// Generate the spline path
 	UFUNCTION( BlueprintCallable, BlueprintNativeEvent, Category="Spline")
 	bool GeneratedSlinePath();
+	// Clear the spline meshes
+	UFUNCTION( BlueprintCallable, BlueprintNativeEvent, Category="Spline")
+	void ClearSplineMeshes();
 
 	//Getter
 	UFUNCTION(Blueprintable, BlueprintPure, Category="Spline")

@@ -66,14 +66,14 @@ void ACustomGameStateBase::LoadDungeon()
 
 	if(LoadDungeonSave->IsValidLowLevel())
 	{
-		for(FSaveRoomsData RoomData : LoadDungeonSave->SavedRoomDataArray)
+		/*for(FSaveRoomsData RoomData : LoadDungeonSave->SavedRoomDataArray)
 		{
 			SpawnDungeonRoom(RoomData);
 		}
 		for (FSaveCoridorData CoridorData : LoadDungeonSave->SavedCoridorDataArray)
 		{
 			SpawnDungeonCoridor(CoridorData);
-		}
+		}*/
 	}
 	else
 	UE_LOG( LogTemp, Warning, TEXT("Save Game Does Not Exist!") );
@@ -99,6 +99,12 @@ void ACustomGameStateBase::SpawnDungeonCoridor(const FSaveCoridorData& CoridorDa
 		CoridorSpawned->SetCoridorID(CoridorData.CoridorID);
 		CoridorSpawned->SplineComponent->SetLocationAtSplinePoint( CoridorSpawned->SplineComponent->GetNumberOfSplinePoints()-1,
 			CoridorData.EndLocation, ESplineCoordinateSpace::Local);
-		CoridorSpawned->GeneratedSlinePath();
+
+		FVector LastPointLocation = CoridorSpawned->SplineComponent->GetLocationAtSplinePoint( CoridorSpawned->SplineComponent->GetNumberOfSplinePoints()-1,
+			ESplineCoordinateSpace::Local);
+
+		GEngine->AddOnScreenDebugMessage( -1, 5.f, FColor::Green, FString::Printf( TEXT("Location last point : %s") , *LastPointLocation.ToString() ) );
+		CoridorSpawned->ClearSplineMeshes();
+		//CoridorSpawned->GeneratedSlinePath();
 	}
 }

@@ -4,6 +4,7 @@
 #include "Dungeon/Room/SplineDungeonPath.h"
 
 #include "Components/SplineComponent.h"
+#include "Components/SplineMeshComponent.h"
 
 
 // Sets default values
@@ -71,6 +72,18 @@ void ASplineDungeonPath::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ASplineDungeonPath::ClearSplineMeshes_Implementation()
+{
+	for (USplineMeshComponent* SplineMesh : SplineMeshArray)
+	{
+		if(SplineMesh->IsValidLowLevel())
+		{
+			SplineMeshArray.Remove(SplineMesh);
+			SplineMesh->DestroyComponent();
+		}
+	}
 }
 
 void ASplineDungeonPath::UpdateSpline()
